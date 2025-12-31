@@ -87,6 +87,7 @@ TAB-auto-saver/
 
 ## ⚠️ Observações
 
+- O programa deve ser executado APÓS o jogo estar aberto
 - O programa precisa ter permissões de leitura no arquivo de log e de escrita na pasta de saves
 - Se `MAX_BACKUPS` for definido como `0`, todos os backups serão mantidos indefinidamente
 
