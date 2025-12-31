@@ -22,6 +22,6 @@ __pycache__/
 .DS_Store
 Thumbs.db
 
-# Backups do jogo (opcional - descomente se não quiser versionar os backups)
-# Saves_Backup_*/
+
+
 

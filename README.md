@@ -13,36 +13,32 @@ Quando um salvamento é detectado, o programa cria automaticamente um backup com
 
 ## 🚀 Como Usar
 
-### 1. Configuração do Ambiente Virtual
+### 1. Configuração
 
-```bash
-# Criar o ambiente virtual
-python -m venv venv
+Antes de executar, você precisa editar o arquivo `main.py` e ajustar as seguintes constantes conforme sua instalação do jogo:
 
-# Ativar o ambiente virtual
-# No Windows:
-venv\Scripts\activate
+#### Constantes Obrigatórias:
 
-# No Linux/Mac:
-source venv/bin/activate
-```
+- **`LOG_FILE_PATH`**: Caminho completo para o arquivo `ZXLog.txt` do jogo. Geralmente está localizado na mesma pasta onde a pasta de saves está localizada.
 
-### 2. Instalação de Dependências
+  ```python
+  LOG_FILE_PATH = "C:\\Users\\SeuUsuario\\Documents\\My Games\\They Are Billions\\ZXLog.txt"
+  ```
 
-```bash
-pip install -r requirements.txt
-```
+- **`SAVES_FOLDER`**: Caminho completo para a pasta de saves do jogo.
+  ```python
+  SAVES_FOLDER = "C:\\Users\\SeuUsuario\\Documents\\My Games\\They Are Billions\\Saves"
+  ```
 
-**Nota**: Este projeto utiliza apenas bibliotecas padrão do Python, então não há dependências externas necessárias.
+#### Constantes Opcionais:
 
-### 3. Configuração
+- **`LINES_BETWEEN_SAVE_AND_START_SCREEN`**: Número de linhas que o programa deve ler após detectar um salvamento antes de processar o evento. Este valor é crítico para o funcionamento correto do programa e **não deve ser alterado** a menos que você saiba o que está fazendo. Valor padrão: `25`
 
-Antes de executar, você precisa editar o arquivo `main.py` e ajustar os seguintes caminhos conforme sua instalação do jogo:
+- **`MAX_BACKUPS`**: Número máximo de backups que o programa pode criar. Quando esse limite é atingido, o backup mais antigo é automaticamente removido para dar espaço ao novo. Se definido como `0`, o programa manterá todos os backups indefinidamente (sem limpeza automática). Valor padrão: `5`
 
-- `LOG_FILE_PATH`: Caminho para o arquivo `ZXLog.txt` do jogo
-- `SAVES_FOLDER`: Caminho para a pasta de saves do jogo
+- **`BACKUP_PREFIX`**: Prefixo usado para nomear as pastas de backup criadas. Os backups serão nomeados como `{BACKUP_PREFIX}_manual_{timestamp}` ou `{BACKUP_PREFIX}_autosave_{timestamp}`. Valor padrão: `"Saves_Backup"`
 
-### 4. Execução
+### 2. Execução
 
 ```bash
 python main.py
@@ -54,11 +50,9 @@ O programa começará a monitorar o arquivo de log. Pressione `Ctrl+C` para ence
 
 ```
 TAB-auto-saver/
-├── venv/                 # Ambiente virtual Python
-├── main.py              # Arquivo principal - monitora o log
+├── main.py              # Arquivo principal - monitora o log e configurações
 ├── ZxLogProcessor.py    # Processador de log e gerenciador de backups
 ├── command.py           # Definições de comandos/enums
-├── requirements.txt     # Dependências do projeto
 └── README.md           # Este arquivo
 ```
 
@@ -68,33 +62,34 @@ TAB-auto-saver/
 - **Detecção de Salvamentos**: Identifica quando o jogo salva (manual ou automático)
 - **Backups Automáticos**: Cria backups completos da pasta de saves
 - **Organização de Backups**: Nomeia os backups com timestamps e tipo de salvamento
-- **Limpeza Automática**: Opção para manter apenas os últimos N backups (configurável)
+- **Limpeza Automática**: Opção para manter apenas os últimos N backups (configurável via `MAX_BACKUPS`)
 - **Multiplataforma**: Suporta Windows, Linux e macOS
-
-## ⚙️ Configurações
-
-No arquivo `main.py`, você pode ajustar:
-
-- `LINES_BETWEEN_SAVE_AND_START_SCREEN`: Número de linhas entre o salvamento e a tela inicial (padrão: 25)
-- `max_backups`: Número máximo de backups a manter (0 = infinitos, padrão: 5)
 
 ## 📝 Como Funciona
 
 1. O programa monitora o arquivo `ZXLog.txt` em tempo real
 2. Quando detecta a mensagem "Salvando progresso", marca que um salvamento ocorreu
 3. Se detecta "Load Success" na tela inicial antes do salvamento, identifica como salvamento manual
-4. Após ler um número específico de linhas após o salvamento, cria o backup
+4. Após ler um número específico de linhas após o salvamento (definido por `LINES_BETWEEN_SAVE_AND_START_SCREEN`), cria o backup
 5. Os backups são salvos na mesma pasta pai da pasta de saves, com nomes como:
    - `Saves_Backup_manual_2024-01-15_14-30-45`
    - `Saves_Backup_autosave_2024-01-15_14-30-45`
 
+## ⚙️ Resumo das Constantes
+
+| Constante                             | Tipo        | Descrição                    | Valor Padrão         |
+| ------------------------------------- | ----------- | ---------------------------- | -------------------- |
+| `LOG_FILE_PATH`                       | Obrigatória | Caminho do arquivo ZXLog.txt | Deve ser configurado |
+| `SAVES_FOLDER`                        | Obrigatória | Caminho da pasta de saves    | Deve ser configurado |
+| `LINES_BETWEEN_SAVE_AND_START_SCREEN` | Opcional    | Linhas a ler após salvamento | `25` (não alterar)   |
+| `MAX_BACKUPS`                         | Opcional    | Máximo de backups a manter   | `5` (0 = infinitos)  |
+| `BACKUP_PREFIX`                       | Opcional    | Prefixo dos nomes de backup  | `"Saves_Backup"`     |
+
 ## ⚠️ Observações
 
-- Certifique-se de que o jogo não está em execução ao criar backups, para evitar erros de permissão
 - O programa precisa ter permissões de leitura no arquivo de log e de escrita na pasta de saves
-- Os caminhos padrão são detectados automaticamente, mas podem ser configurados manualmente
+- Se `MAX_BACKUPS` for definido como `0`, todos os backups serão mantidos indefinidamente
 
 ## 📄 Licença
 
 Este projeto é de código aberto e está disponível para uso pessoal.
-
