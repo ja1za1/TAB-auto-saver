@@ -1,0 +1,27 @@
+# Ambiente Virtual
+venv/
+env/
+ENV/
+.venv
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Sistema Operacional
+.DS_Store
+Thumbs.db
+
+# Backups do jogo (opcional - descomente se não quiser versionar os backups)
+# Saves_Backup_*/
+
